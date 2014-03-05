@@ -2,6 +2,7 @@
 
 require 'iso3166'
 require 'sepa/payments_initiation/pain00800104/customer_direct_debit_initiation'
+require 'sepa/payments_initiation/pain00800202/customer_direct_debit_initiation'
 
 class Sepa::DirectDebitOrder
   def self.new_order props
@@ -87,7 +88,7 @@ class Sepa::DirectDebitOrder
       hsh = hsh.merge initiating_party.to_properties("group_header.initiating_party", opts.merge({:context => :initiating_party}))
 
       cps = []
-      if opts[:pain_008_001_version] == "02"
+      if opts[:pain_008_001_version] == "02" or opts[:pain_008_002_version] == '02'
         creditor_payments.each do |creditor_payment|
           creditor_payment.collect_by_sequence_type { |cp| cps << cp }
         end
@@ -103,7 +104,11 @@ class Sepa::DirectDebitOrder
     end
 
     def to_xml opts={ }
-      Sepa::PaymentsInitiation::Pain00800104::CustomerDirectDebitInitiation.new(to_properties opts).generate_xml(opts)
+      if opts.key?(:pain_008_002_version)
+        Sepa::PaymentsInitiation::Pain00800202::CustomerDirectDebitInitiation.new(to_properties opts).generate_xml(opts)
+      else
+        Sepa::PaymentsInitiation::Pain00800104::CustomerDirectDebitInitiation.new(to_properties opts).generate_xml(opts)
+      end
     end
   end
 
@@ -119,7 +124,33 @@ class Sepa::DirectDebitOrder
     def to_properties prefix, opts
       cc = county_code country
       hsh = { "#{prefix}.name" => name }
-      if (opts[:context] != :initiating_party) || (opts[:pain_008_001_version] != "02")
+
+      if opts[:pain_008_002_version] == "02"
+        address_line_1 ||= '' 
+
+        address_line_1 << " #{contact_name}"  unless blank? contact_name
+
+        if not blank?(contact_phone) and not blank?(contact_email) and
+          (address_line_1  + contact_phone  + contact_email).size + 2 <= 70
+
+          address_line_1 << " #{contact_phone}" unless blank? contact_phone
+          address_line_1 << " #{contact_email}" unless blank? contact_email
+        end
+
+        hsh["#{prefix}.postal_address.address_line[0]"] = address_line_1 unless blank?(address_line_1.strip)
+
+
+        address_line_2  ||= '' 
+        if not blank?(postcode) and not blank?(town) and
+          (address_line_2 + postcode + town).size + 2 <= 70
+
+          address_line_2 = " #{postcode}"       unless blank? postcode
+          address_line_2 = " #{town}"           unless blank? town
+        end
+
+          hsh["#{prefix}.postal_address.address_line[1]"] = address_line_2 unless blank?(address_line_2.strip)
+
+      elsif (opts[:context] != :initiating_party) || (opts[:pain_008_001_version] != "02")
         hsh["#{prefix}.postal_address.address_line[0]"] = address_line_1 unless blank? address_line_1
 
         if opts[:pain_008_001_version] == "02"
@@ -139,6 +170,20 @@ class Sepa::DirectDebitOrder
         end
       end
       hsh
+    end
+  end
+
+
+  ##
+  # Represents a Subclass of Party, which allow for the 008.002.02 std only the name as property.
+  # 
+  class InitParty < Party
+    def to_properties prefix, opts
+      if opts.key?(:pain_008_002_version)
+        hsh = { "#{prefix}.name" => name }
+      else
+        super
+      end
     end
   end
 
@@ -210,7 +255,7 @@ class Sepa::DirectDebitOrder
         "#{prefix}.charge_bearer"                                  => "SLEV"
       }
 
-      if opts[:pain_008_001_version] == "02"
+      if opts[:pain_008_001_version] == "02" or opts[:pain_008_002_version] == "02"
         hsh["#{prefix}.payment_type_information.sequence_type"] = sequence_type
       end
 

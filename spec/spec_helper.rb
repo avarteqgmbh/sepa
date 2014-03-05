@@ -1,4 +1,7 @@
 require 'sepa'
+require 'pry'
+
+require 'factory'
 
 #
 # Ruby 1.8 hashes are unordered, which results in xml tag attributes appearing in arbitrary order, so
@@ -13,6 +16,10 @@ module XmlHelper
 
   XMLNS_04 = 'xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.04"'
   XSI_04   = 'xsi:schemaLocation="urn:iso:std:iso:20022:tech:xsd:pain.008.001.04 pain.008.001.04.xsd"'
+
+
+  XMLNS_002_02 = 'xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.002.02"'
+  XSI_002_02   = 'xsi:schemaLocation="urn:iso:std:iso:20022:tech:xsd:pain.008.002.02 pain.008.002.02.xsd"'
 
   DOCUMENT_TAG = /<Document [^>]+>/
 
@@ -29,6 +36,14 @@ module XmlHelper
     document_tag.should include XMLNSXSI
     document_tag.should include XMLNS_04
     document_tag.should include XSI_04
+    xml.sub(DOCUMENT_TAG, '<Document>')
+  end
+
+  def check_doc_header_002_02 xml
+    document_tag = xml.match(DOCUMENT_TAG).to_s
+    document_tag.should include XMLNSXSI
+    document_tag.should include XMLNS_002_02
+    document_tag.should include XSI_002_02
     xml.sub(DOCUMENT_TAG, '<Document>')
   end
 end

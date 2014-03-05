@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document>
+  <CstmrDrctDbtInitn>
+    <GrpHdr>
+      <MsgId>MSG0001</MsgId>
+      <CreDtTm>1992-02-28T18:30:00Z</CreDtTm>
+      <NbOfTxs>2</NbOfTxs>
+      <CtrlSum>2963.63</CtrlSum>
+      <InitgPty>
+        <Nm>SOFTIFY SARL</Nm>
+      </InitgPty>
+    </GrpHdr>
+    <PmtInf>
+      <PmtInfId>MONECOLE_PAYMENTS_20130703</PmtInfId>
+      <PmtMtd>DD</PmtMtd>
+      <NbOfTxs>2</NbOfTxs>
+      <CtrlSum>2963.63</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>SEPA</Cd>
+        </SvcLvl>
+        <LclInstrm>
+          <Cd>CORE</Cd>
+        </LclInstrm>
+        <SeqTp>OOFF</SeqTp>
+      </PmtTpInf>
+      <ReqdColltnDt>2013-07-10</ReqdColltnDt>
+      <Cdtr>
+        <Nm>Mon Ecole</Nm>
+        <PstlAdr>
+          <Ctry>FR</Ctry>
+          <AdrLine>3, Livva de Getamire</AdrLine>
+        </PstlAdr>
+      </Cdtr>
+      <CdtrAcct>
+        <Id>
+          <IBAN>FRGOOGOOYADDA9999999</IBAN>
+        </Id>
+      </CdtrAcct>
+      <CdtrAgt>
+        <FinInstnId>
+          <BICFI>FRGGYELLOW99</BICFI>
+        </FinInstnId>
+      </CdtrAgt>
+      <DrctDbtTxInf>
+        <PmtId>
+          <EndToEndId>MONECOLE REG F13789 PVT 3</EndToEndId>
+        </PmtId>
+        <InstdAmt Ccy="EUR">1231.31</InstdAmt>
+        <DrctDbtTx>
+          <MndtRltdInf>
+            <MndtId>mandate-id-0</MndtId>
+          </MndtRltdInf>
+        </DrctDbtTx>
+        <DbtrAgt>
+          <FinInstnId>
+            <BICFI>FRZZPPKOOKOO</BICFI>
+          </FinInstnId>
+        </DbtrAgt>
+        <Dbtr>
+          <Nm>DALTON/CONANMR</Nm>
+          <PstlAdr>
+            <Ctry>FR</Ctry>
+            <AdrLine>64, Livva de Getamire</AdrLine>
+          </PstlAdr>
+        </Dbtr>
+        <DbtrAcct>
+          <Id>
+            <IBAN>FRZIZIPAPARAZZI345789</IBAN>
+          </Id>
+        </DbtrAcct>
+      </DrctDbtTxInf>
+      <DrctDbtTxInf>
+        <PmtId>
+          <EndToEndId>MONECOLE REG F13790 PVT 3</EndToEndId>
+        </PmtId>
+        <PmtTpInf>
+          <SeqTp>FRST</SeqTp>
+        </PmtTpInf>
+        <InstdAmt Ccy="EUR">1732.32</InstdAmt>
+        <DrctDbtTx>
+          <MndtRltdInf>
+            <MndtId>mandate-id-1</MndtId>
+          </MndtRltdInf>
+        </DrctDbtTx>
+        <DbtrAgt>
+          <FinInstnId>
+            <BICFI>FRQQWIGGA</BICFI>
+          </FinInstnId>
+        </DbtrAgt>
+        <Dbtr>
+          <Nm>ADAMS/SAMUELMR</Nm>
+          <PstlAdr>
+            <Ctry>FR</Ctry>
+            <AdrLine>256, Livva de Getamire</AdrLine>
+          </PstlAdr>
+        </Dbtr>
+        <DbtrAcct>
+          <Id>
+            <IBAN>FRQUIQUIWIGWAM947551</IBAN>
+          </Id>
+        </DbtrAcct>
+      </DrctDbtTxInf>
+    </PmtInf>
+  </CstmrDrctDbtInitn>
+</Document>

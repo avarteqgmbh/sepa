@@ -20,6 +20,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency             'countries', "~> 0.9.3"
   gem.add_development_dependency 'rspec', '~> 2.9'
   gem.add_development_dependency 'rspec_numbering_formatter'
+  gem.add_development_dependency 'pry'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
