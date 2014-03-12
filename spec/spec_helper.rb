@@ -2,7 +2,7 @@ require 'sepa'
 require 'pry'
 
 require 'factory'
-
+require 'equivalent-xml'
 #
 # Ruby 1.8 hashes are unordered, which results in xml tag attributes appearing in arbitrary order, so
 # we can't just do a plain string compare of output.

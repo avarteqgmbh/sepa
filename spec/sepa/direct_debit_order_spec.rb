@@ -13,7 +13,7 @@ describe Sepa::DirectDebitOrder do
       xml = check_doc_header_02 xml
       expected = File.read(File.expand_path("../expected_customer_direct_debit_initiation_v02.xml", __FILE__))
       expected.force_encoding(Encoding::UTF_8) if expected.respond_to? :force_encoding
-      xml.should == expected
+      Nokogiri::XML.parse(xml).should be_equivalent_to(Nokogiri::XML.parse(expected))
     end
 
     it "should produce v02 xml corresponding to the given inputs with unstructured remittance information" do
@@ -22,7 +22,7 @@ describe Sepa::DirectDebitOrder do
       xml = check_doc_header_02 xml
       expected = File.read(File.expand_path("../expected_customer_direct_debit_initiation_v02_with_remittance_information.xml", __FILE__))
       expected.force_encoding(Encoding::UTF_8) if expected.respond_to? :force_encoding
-      xml.should == expected
+      Nokogiri::XML.parse(xml).should be_equivalent_to(Nokogiri::XML.parse(expected))
     end
 
     it "should produce v04 xml corresponding to the given inputs" do
@@ -31,19 +31,20 @@ describe Sepa::DirectDebitOrder do
       xml = check_doc_header_04 xml
       expected = File.read(File.expand_path("../expected_customer_direct_debit_initiation_v04.xml", __FILE__))
       expected.force_encoding(Encoding::UTF_8) if expected.respond_to? :force_encoding
-      xml.should == expected
+      Nokogiri::XML.parse(xml).should be_equivalent_to(Nokogiri::XML.parse(expected))
     end
   end # Sepa::DirectDebitOrder::PrivateSepaIdentifier
 
   describe Sepa::DirectDebitOrder::OrganisationSepaIdentifier do
-  it "should produce v04 xml corresponding to the given inputs with an organisation identifier for the creditor" do
-    o = Factory.order(Sepa::DirectDebitOrder::OrganisationSepaIdentifier)
-    xml = o.to_xml :pain_008_001_version => "04"
-    xml = check_doc_header_04 xml
-    expected = File.read(File.expand_path("../expected_customer_direct_debit_initiation_v04_with_org_id.xml", __FILE__))
-    expected.force_encoding(Encoding::UTF_8) if expected.respond_to? :force_encoding
-    xml.should == expected
-  end
+    it "should produce v04 xml corresponding to the given inputs with an organisation identifier for the creditor" do
+      o = Factory.order(Sepa::DirectDebitOrder::OrganisationSepaIdentifier)
+      xml = o.to_xml :pain_008_001_version => "04"
+      xml = check_doc_header_04 xml
+      expected = File.read(File.expand_path("../expected_customer_direct_debit_initiation_v04_with_org_id.xml", __FILE__))
+      expected.force_encoding(Encoding::UTF_8) if expected.respond_to? :force_encoding
+      Nokogiri::XML.parse(xml).should be_equivalent_to(Nokogiri::XML.parse(expected))
+      #xml.should == expected
+    end
   end # Sepa::DirectDebitOrder::OrganisationSepaIdentifier
 
   describe Sepa::DirectDebitOrder do

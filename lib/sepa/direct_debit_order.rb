@@ -125,6 +125,8 @@ class Sepa::DirectDebitOrder
       cc = county_code country
       hsh = { "#{prefix}.name" => name }
 
+      return hsh if opts[:context] == :initiating_party and not opts[:pain_008_001_version] == "04"
+
       if opts[:pain_008_002_version] == "02"
         address_line_1 ||= '' 
 
@@ -150,8 +152,9 @@ class Sepa::DirectDebitOrder
 
           hsh["#{prefix}.postal_address.address_line[1]"] = address_line_2 unless blank?(address_line_2.strip)
 
-      elsif (opts[:context] != :initiating_party) || (opts[:pain_008_001_version] != "02")
-        hsh["#{prefix}.postal_address.address_line[0]"] = address_line_1 unless blank? address_line_1
+      else
+
+        hsh["#{prefix}.postal_address.address_line[0]"] = self.address_line_1 unless blank?(self.address_line_1)
 
         if opts[:pain_008_001_version] == "02"
           candidate_adr_line_2 = "#{postcode} #{town}".strip
